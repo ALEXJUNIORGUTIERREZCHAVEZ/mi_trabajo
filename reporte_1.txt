@@ -1,0 +1,91 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Paso para verificar el código desde el repositorio
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Paso para compilar el código (puedes adaptarlo según tu tecnología)
+                script {
+                    sh 'mvn clean package'
+                }
+            }
+        }
+
+        stage('Deploy to Test Environment') {
+            steps {
+                // Paso para desplegar la aplicación en un entorno de prueba
+                script {
+                    // Inserta aquí los comandos o scripts de despliegue
+                    sh './deploy-script.sh'
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                // Paso para ejecutar pruebas automáticas
+                script {
+                    // Inserta aquí los comandos o scripts de pruebas
+                    sh 'mvn test'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            // Paso a ejecutar si todas las etapas anteriores son exitosas
+            echo 'Despliegue y pruebas exitosas. Listo para producción.'
+        }
+        failure {
+            // Paso a ejecutar si alguna de las etapas anteriores falla
+            echo 'Error en despliegue o pruebas. Revisar y corregir.'
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
